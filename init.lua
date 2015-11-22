@@ -8,7 +8,7 @@ end
 -- sadly breaks default leafdecay
 local rotated_leaves = minetest.setting_getbool("plantlike_leaves_rotated")
 
-local leaves = {"default:leaves", "default:jungleleaves"}
+local leaves = {"default:leaves", "default:jungleleaves", "default:acacia_leaves"}
 
 local function test(bool, msg)
 	if not bool then
