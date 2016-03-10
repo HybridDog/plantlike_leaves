@@ -5,6 +5,7 @@ if not minetest.setting_getbool("plantlike_leaves") then
 	return
 end
 
+local leaves_wave = true
 -- sadly breaks default leafdecay
 local rotated_leaves = minetest.setting_getbool("plantlike_leaves_rotated")
 
@@ -18,7 +19,8 @@ end
 
 local rt2 = math.sqrt(2)
 local change_texture
-if rotated_leaves then
+if rotated_leaves
+or leaves_wave then
 	-- not neccesary to change
 	function change_texture(texture)
 		return texture
