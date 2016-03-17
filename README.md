@@ -1,7 +1,8 @@
 [Mod] plantlike_leaves [plantlike_leaves]
 
-add plantlike_leaves = true to minetest.conf  
-and plantlike_leaves_rotated = true
+This mod changes the look of default trees.  
+Add plantlike_leaves = true to minetest.conf to make it work  
+and plantlike_leaves_rotated = true to make plantlike leaves become rotated randomly, which looks great but doesn't work correctly together with leafdecay.
 
 
 **Depends:** see [depends.txt](https://raw.githubusercontent.com/HybridDog/plantlike_leaves/master/depends.txt)  
