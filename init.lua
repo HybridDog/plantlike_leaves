@@ -5,11 +5,22 @@ if not minetest.setting_getbool("plantlike_leaves") then
 	return
 end
 
-local leaves_wave = true
+local leaves_wave = minetest.setting_getbool("waving_plants")
 -- sadly breaks default leafdecay
 local rotated_leaves = minetest.setting_getbool("plantlike_leaves_rotated")
 
-local leaves = {"default:leaves", "default:jungleleaves", "default:acacia_leaves"}
+local leaves,n = {},1
+for name,def in pairs(minetest.registered_nodes) do
+	if def.drawtype == "allfaces_optional" then
+		if string.find(name, "leaves")
+		or string.find(name, "needle") then
+			leaves[n] = name
+			n = n+1
+		else
+			minetest.log("info", "[plantlike_leaves] skipping "..name)
+		end
+	end
+end
 
 local function test(bool, msg)
 	if not bool then
@@ -39,14 +50,16 @@ local data = {
 	drawtype = "plantlike",
 }
 
-local leaves_ids
+local leaves_ids, after_place_leaves
 if rotated_leaves then
 	data.paramtype2 = "degrotate"
-	data.after_place_node = function(pos)
+
+	function after_place_leaves(pos)
 		local node = minetest.get_node(pos)
 		node.param2 = math.random(0,179)
 		minetest.set_node(pos, node)
 	end
+
 	leaves_ids = {}
 	for _,name in pairs(leaves) do
 		leaves_ids[minetest.get_content_id(name)] = true
@@ -55,10 +68,22 @@ end
 
 for _,name in pairs(leaves) do
 	local def = minetest.registered_nodes[name]
-	test(def, name.." doesn't seem to be a node")
-	test(def.drawtype ~= "plantlike", name.." is already plantlike")
+	--test(def, name.." doesn't seem to be a node")
+	--test(def.drawtype ~= "plantlike", name.." is already plantlike")
+	if rotated_leaves then
+		if def.after_place_node then
+			local old_after_place = def.after_place_node
+			data.after_place_node = function(pos, ...)
+				local v = old_after_place(pos, ...)
+				after_place_leaves(pos)
+				return v
+			end
+		else
+			data.after_place_node = after_place_leaves
+		end
+	end
 
-	local texture = minetest.registered_nodes[name].tiles
+	local texture = def.tiles
 	test(texture, name.." doesn't have tiles")
 
 	texture = texture[1]
@@ -76,9 +101,11 @@ data = nil
 
 if rotated_leaves then
 	local function log(msg)
+		--[[
 		msg = "[plantlike_leaves] "..msg
-		--minetest.chat_send_all(msg)
-		minetest.log("info", msg)
+		minetest.chat_send_all(msg)
+		minetest.log("info", msg)--]]
+		minetest.log("info", "[plantlike_leaves] "..msg)
 	end
 
 	minetest.register_on_generated(function(minp, maxp, seed)
@@ -104,7 +131,7 @@ if rotated_leaves then
 		for z = minp.z, maxp.z do
 			for x = minp.x, maxp.x do
 				local y = heightmap[hmi]
-				for p_pos in area:iter(x,y+1,z, x,y+20,z) do	--remove tree stuff
+				for p_pos in area:iter(x,y+1,z, x,y+20,z) do
 					if leaves_ids[data[p_pos]] then
 						if not param2s then
 							param2s = vm:get_param2_data()
