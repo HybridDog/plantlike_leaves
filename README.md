@@ -14,3 +14,7 @@ and plantlike_leaves_rotated = true to make plantlike leaves become rotated rand
 If you got ideas or found bugs, please tell them to me.
 
 [How to install a mod?](http://wiki.minetest.net/Installing_Mods)
+
+
+TODO:  
+— add a setting to change only default leaves
