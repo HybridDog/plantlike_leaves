@@ -126,6 +126,9 @@ if rotated_leaves then
 		local param2s
 
 		local heightmap = minetest.get_mapgen_object("heightmap")
+		if not heightmap then
+			return
+		end
 		local hmi = 1
 
 		for z = minp.z, maxp.z do
