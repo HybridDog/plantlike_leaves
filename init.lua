@@ -1,20 +1,20 @@
 local load_time_start = os.clock()
 
 
-if not minetest.setting_getbool("plantlike_leaves") then
+if not minetest.setting_getbool"plantlike_leaves" then
 	return
 end
 
-local leaves_wave = minetest.setting_getbool("waving_plants")
-local leaves_unsolid = minetest.setting_getbool("plantlike_leaves_unsolid")
+local leaves_wave = minetest.setting_getbool"waving_plants"
+local leaves_unsolid = minetest.setting_getbool"plantlike_leaves_unsolid"
 -- note: using degrotate breaks default leafdecay
-local rotated_leaves = minetest.setting_getbool("plantlike_leaves_rotated")
+local rotated_leaves = minetest.setting_getbool"plantlike_leaves_rotated"
 
 local leaves,n = {},1
 for name,def in pairs(minetest.registered_nodes) do
 	if def.drawtype == "allfaces_optional" then
-		if string.find(name, "leaves")
-		or string.find(name, "needle") then
+		if name:find"leaves"
+		or name:find"needle" then
 			leaves[n] = name
 			n = n+1
 		else
@@ -124,13 +124,13 @@ if rotated_leaves then
 
 		local pr = PseudoRandom(seed+53)
 
-		local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
+		local vm, emin, emax = minetest.get_mapgen_object"voxelmanip"
 		local data = vm:get_data()
 		local area = VoxelArea:new{MinEdge=emin, MaxEdge=emax} -- TODO: why does this work?
 
 		local param2s
 
-		local heightmap = minetest.get_mapgen_object("heightmap")
+		local heightmap = minetest.get_mapgen_object"heightmap"
 		if not heightmap then
 			return
 		end
@@ -154,7 +154,7 @@ if rotated_leaves then
 		if param2s then
 			vm:set_param2_data(param2s)
 			vm:write_to_map()
-			log("leaves found")
+			log"leaves found"
 		end
 		log("done after ca. "..math.floor(tonumber(os.clock()-t1)*100+0.5)/100)
 	end)
