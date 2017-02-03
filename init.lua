@@ -51,7 +51,8 @@ end
 
 
 local data = {
-	visual_scale = math.sqrt(rt2),
+	--~ visual_scale = math.sqrt(rt2),
+	visual_scale = rt2,
 	drawtype = "plantlike",
 }
 
