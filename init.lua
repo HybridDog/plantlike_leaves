@@ -6,6 +6,7 @@ if not minetest.setting_getbool("plantlike_leaves") then
 end
 
 local leaves_wave = minetest.setting_getbool("waving_plants")
+local leaves_unsolid = minetest.setting_getbool("plantlike_leaves_unsolid")
 -- sadly breaks default leafdecay
 local rotated_leaves = minetest.setting_getbool("plantlike_leaves_rotated")
 
@@ -64,6 +65,10 @@ if rotated_leaves then
 	for _,name in pairs(leaves) do
 		leaves_ids[minetest.get_content_id(name)] = true
 	end
+end
+
+if leaves_unsolid then
+	data.walkable = false
 end
 
 for _,name in pairs(leaves) do
