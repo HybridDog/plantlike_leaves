@@ -7,14 +7,18 @@ end
 
 local leaves_wave = minetest.setting_getbool"waving_plants"
 local leaves_unsolid = minetest.setting_getbool"plantlike_leaves_unsolid"
+local only_default = minetest.setting_getbool"plantlike_default_only"
 -- note: using degrotate breaks default leafdecay
 local rotated_leaves = minetest.setting_getbool"plantlike_leaves_rotated"
 
 local leaves,n = {},1
 for name,def in pairs(minetest.registered_nodes) do
 	if def.drawtype == "allfaces_optional" then
-		if name:find"leaves"
-		or name:find"needle" then
+		if (name:find"leaves"
+			or name:find"needle"
+		) and (not only_default
+			or name:sub(1, 8) == "default:"
+		) then
 			leaves[n] = name
 			n = n+1
 		else

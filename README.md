@@ -15,7 +15,3 @@ Or simply have a look at mods section in the settings tab.
 If you got ideas or found bugs, please tell them to me.
 
 [How to install a mod?](http://wiki.minetest.net/Installing_Mods)
-
-
-TODO:  
-— add a setting to change only default leaves
