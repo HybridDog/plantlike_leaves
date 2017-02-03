@@ -7,7 +7,7 @@ end
 
 local leaves_wave = minetest.setting_getbool("waving_plants")
 local leaves_unsolid = minetest.setting_getbool("plantlike_leaves_unsolid")
--- sadly breaks default leafdecay
+-- note: using degrotate breaks default leafdecay
 local rotated_leaves = minetest.setting_getbool("plantlike_leaves_rotated")
 
 local leaves,n = {},1

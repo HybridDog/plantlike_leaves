@@ -4,6 +4,7 @@ plantlike_leaves (plantlike leaves) bool false
 #    Disables walking on leaves
 plantlike_leaves_unsolid (non-walkable leaves) bool false
 
-#    Rotate leaves using degrotate as paramtype2, unfortunately it breaks
-#    default leafdecay
+#    Rotate leaves using degrotate as paramtype2,
+#    the leaves become rotated randomly to ameliorate their look,
+#    unfortunately it breaks default leafdecay (leaves don't disappear)
 plantlike_leaves_rotated (rotate leaves) bool false
