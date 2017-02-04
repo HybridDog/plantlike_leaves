@@ -35,14 +35,9 @@ end
 
 local rt2 = math.sqrt(2)
 local change_texture
-if rotated_leaves
-or leaves_wave then
-	-- not neccesary to change
-	function change_texture(texture)
-		return texture
-	end
-else
-	local tex_sc = (1-(1/rt2))*100-4
+if not rotated_leaves
+and not leaves_wave then
+	local tex_sc = (1 - (1 / rt2)) * 100 - 4
 	function change_texture(texture)
 		--return texture.."^[transform2^[lowpart:"..tex_sc..":plantlike_leaves.png^[transform2^[makealpha:255,126,126"
 		return texture.."^[lowpart:"..tex_sc..":plantlike_leaves.png^[makealpha:255,126,126"
@@ -89,6 +84,7 @@ for _,name in pairs(leaves) do
 				return v
 			end
 		else
+			-- data.after_place_node was the previous one
 			data.after_place_node = after_place_leaves
 		end
 	end
@@ -99,8 +95,9 @@ for _,name in pairs(leaves) do
 	texture = texture[1]
 	test(texture, name.." doesn't have a texture")
 
-	--data.tiles = {}
-	data.tiles = {change_texture(texture)}
+	if change_texture then
+		data.tiles = {change_texture(texture)}
+	end
 	data.inventory_image = texture
 
 	minetest.override_item(name, data)
