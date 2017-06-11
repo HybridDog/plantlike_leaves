@@ -1,15 +1,15 @@
 local load_time_start = os.clock()
 
 
-if not minetest.setting_getbool"plantlike_leaves" then
+if not minetest.settings:get_bool"plantlike_leaves" then
 	return
 end
 
-local leaves_wave = minetest.setting_getbool"waving_plants"
-local leaves_unsolid = minetest.setting_getbool"plantlike_leaves_unsolid"
-local only_default = minetest.setting_getbool"plantlike_default_only"
+local leaves_wave = minetest.settings:get_bool"waving_plants"
+local leaves_unsolid = minetest.settings:get_bool"plantlike_leaves_unsolid"
+local only_default = minetest.settings:get_bool"plantlike_default_only"
 -- note: using degrotate breaks default leafdecay
-local rotated_leaves = minetest.setting_getbool"plantlike_leaves_rotated"
+local rotated_leaves = minetest.settings:get_bool"plantlike_leaves_rotated"
 
 local leaves,n = {},1
 for name,def in pairs(minetest.registered_nodes) do
