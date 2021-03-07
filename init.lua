@@ -45,7 +45,7 @@ and not leaves_wave then
 end
 
 
-local data = {
+local nodedef_override = {
 	--~ visual_scale = math.sqrt(rt2),
 	visual_scale = rt2,
 	drawtype = "plantlike",
@@ -53,7 +53,7 @@ local data = {
 
 local leaves_ids, after_place_leaves
 if rotated_leaves then
-	data.paramtype2 = "degrotate"
+	nodedef_override.paramtype2 = "degrotate"
 
 	function after_place_leaves(pos)
 		local node = minetest.get_node(pos)
@@ -68,7 +68,7 @@ if rotated_leaves then
 end
 
 if leaves_unsolid then
-	data.walkable = false
+	nodedef_override.walkable = false
 end
 
 for _,name in pairs(leaves) do
@@ -78,14 +78,14 @@ for _,name in pairs(leaves) do
 	if rotated_leaves then
 		if def.after_place_node then
 			local old_after_place = def.after_place_node
-			data.after_place_node = function(pos, ...)
+			nodedef_override.after_place_node = function(pos, ...)
 				local v = old_after_place(pos, ...)
 				after_place_leaves(pos)
 				return v
 			end
 		else
-			-- data.after_place_node was the previous one
-			data.after_place_node = after_place_leaves
+			-- nodedef_override.after_place_node was the previous one
+			nodedef_override.after_place_node = after_place_leaves
 		end
 	end
 
@@ -96,14 +96,12 @@ for _,name in pairs(leaves) do
 	test(texture, name.." doesn't have a texture")
 
 	if change_texture then
-		data.tiles = {change_texture(texture)}
+		nodedef_override.tiles = {change_texture(texture)}
 	end
-	data.inventory_image = texture
+	nodedef_override.inventory_image = texture
 
-	minetest.override_item(name, data)
+	minetest.override_item(name, nodedef_override)
 end
-
-data = nil
 
 
 if rotated_leaves then
